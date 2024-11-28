@@ -1,3 +1,6 @@
+require('dotenv').config();
+
+
 const express = require('express');
 const app = express();
 
@@ -6,15 +9,11 @@ const middlerwareLogs = require('./middleware/logs.js');
 
 app.use(middlerwareLogs.logger);
 app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.json({
-        message: "ge home success"
-    });
-});
+app.use('/assets', express.static('public/images'));
 
 app.use('/users', userRoutes);
 
-app.listen(3000, () =>{
-    console.log('Server berhasil berjalan di port 3000!');
+const port = process.env.PORT || 3000;
+app.listen(port, () =>{
+    console.log(`Server berhasil berjalan di port ${port}!`);
 });
